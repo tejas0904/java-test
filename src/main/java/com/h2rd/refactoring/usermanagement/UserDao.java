@@ -8,6 +8,7 @@ public class UserDao {
 
     public static UserDao userDao;
 
+    //This is essentially what is done by spring framework, a singleton pattern usecase
     public static UserDao getUserDao() {
         if (userDao == null) {
             userDao = new UserDao();
@@ -33,11 +34,12 @@ public class UserDao {
 
     public void deleteUser(User userToDelete) {
         try {
-            for (User user : users) {
-                if (user.getName() == userToDelete.getName()) {
-                    users.remove(user);
-                }
-            }
+//            for (User user : users) {
+//                if (user.getName() == userToDelete.getName()) {
+//                    users.remove(user);
+//                }
+//            }
+        	users.remove(userToDelete);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,6 +53,7 @@ public class UserDao {
                     user.setRoles(userToUpdate.getRoles());
                 }
             }
+            
         } catch (RuntimeException e) {
             e.printStackTrace();
         }
@@ -68,4 +71,17 @@ public class UserDao {
         }
         return null;
     }
+
+	public boolean isValidEmailAddress(String email) {
+		 try {
+	            for (User user : users) {
+	                if (user.getEmail() == email) {
+	                    return false;
+	                }
+	            }
+	        } catch (NullPointerException e) {
+	            e.printStackTrace();
+	        }
+		return true;
+	}
 }
